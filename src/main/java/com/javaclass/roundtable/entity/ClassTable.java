@@ -1,6 +1,7 @@
 package com.javaclass.roundtable.entity;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 @Data
@@ -15,17 +16,21 @@ public class ClassTable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "subject")
-    private String subject;
+    @Column(name = "sub_title")
+    private String subTitle;
 
-    @Column(name = "week")
-    private String week;
+    @Column(name = "weekly")
+    private String weekly;
 
-    @Column(name = "teacher")
-    private String teacher;
+    @Column(name = "speaker")
+    private String speaker;
 
-    @Column(name = "order")
-    private Integer order;
+    @Column(name = "date")
+    private String date;
+
+    @Column(name = "seq_no")
+    private Integer seqNo;
+
 
 
 }
