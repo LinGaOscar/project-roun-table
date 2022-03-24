@@ -3,10 +3,10 @@ package com.javaclass.roundtable.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @Entity
+@Table(name = "time_table")
 public class TimeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
