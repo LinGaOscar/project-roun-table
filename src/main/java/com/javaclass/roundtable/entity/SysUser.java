@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Table(name = "sys_user")
 public class SysUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "account")
     private String account;
