@@ -20,8 +20,6 @@ public class ClassTableController {
         this.classTableService = classTableService;
     }
 
-
-
     @GetMapping({"/getTable"})
     @ResponseBody
     public List<ClassTable> getAllTable() {
