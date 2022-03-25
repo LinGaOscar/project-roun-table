@@ -22,7 +22,9 @@ public class IndexController {
 
     @GetMapping({"/"})
     public String index() {
-        return "login";
+
+//        return "login";
+        return "test";
     }
 
     @PostMapping("/login")
