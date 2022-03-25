@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController {
     @GetMapping({"/"})
     public String indexPage() {
-//        return "login";
-        return "test";
+        return "login";
+//        return "test";
     }
 
     @GetMapping({"/timeTable"})
@@ -23,8 +23,8 @@ public class IndexController {
         return "timetable";
     }
 
-    @GetMapping({"/login"})
+    @GetMapping({"/index"})
     public String loginPage() {
-        return "login";
+        return "index";
     }
 }
