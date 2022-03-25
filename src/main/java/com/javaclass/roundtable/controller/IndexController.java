@@ -12,33 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
-    private SysUserServiceImpl sysUserService;
-
-    @Autowired
-    public void autoWired(SysUserServiceImpl sysUserService) {
-        this.sysUserService = sysUserService;
-    }
-
-
     @GetMapping({"/"})
-    public String index() {
-
+    public String indexPage() {
 //        return "login";
         return "test";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String account, @RequestParam  String password) {
+    @GetMapping({"/timeTable"})
+    public String timeTablePage() {
+        return "timetable";
+    }
 
-        System.out.println(account + password);
-
-        SysUser sysUser = sysUserService.findByAccount("account");
-        if (sysUser == null) {
-            return "login";
-        }else{
-            return "index";
-        }
-
-
+    @GetMapping({"/login"})
+    public String loginPage() {
+        return "login";
     }
 }
