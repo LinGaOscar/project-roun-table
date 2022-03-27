@@ -4,9 +4,13 @@ import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.service.SysUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -19,13 +23,20 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String account, @RequestParam String password) {
-//        System.out.println(account + password);
+    public String login(@RequestParam String account, @RequestParam String password , Model model) {
+        System.out.println(account + password);
         SysUser sysUser = sysUserService.findByAccount("account");
+
         if (sysUser == null) {
+            model.addAttribute("userError","not found user");
             return "login";
         } else {
-            return "index";
+            if (sysUser.getPassword() == password) {
+                return "index";
+            } else {
+                model.addAttribute("passwordError","incorrect password");
+                return "login";
+            }
         }
     }
 }
