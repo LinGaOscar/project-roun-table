@@ -1,14 +1,11 @@
 package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.SysUser;
-import com.javaclass.roundtable.repository.SysUserRepository;
-import com.javaclass.roundtable.service.SysUserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Objects;
 
 @Controller
 public class IndexController {
@@ -20,11 +17,18 @@ public class IndexController {
 
     @GetMapping({"/timeTable"})
     public String timeTablePage() {
-        return "timetable";
+        return "class_table";
     }
 
     @GetMapping({"/index"})
-    public String loginPage() {
+    public String loginPage(Model model) {
+        SysUser sysUser = (SysUser) model.asMap().get("user");
+        System.out.println(model.addAttribute("user"));
+        System.out.println(sysUser);
+        if (Objects.isNull(sysUser)) {
+
+        }
+//        System.out.println(model.getAttribute("user"));
         return "index";
     }
 }

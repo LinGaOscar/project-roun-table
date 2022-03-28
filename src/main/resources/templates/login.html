@@ -19,13 +19,17 @@
         <div class="form-group">
             <label for="account">Account</label>
             <input type="text" class="form-control" id="account" name="account" placeholder="Enter Account">
-            <span th:text="${userError}"></span>
+            <div class="alert alert-danger" role="alert" th:if="${userError}" th:text="${userError}">
+            </div>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
-            <span th:text="${passwordError}"></span>
+            <div class="alert alert-danger" role="alert" th:if="${passwordError}" th:text="${passwordError}">
+            </div>
+
         </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
