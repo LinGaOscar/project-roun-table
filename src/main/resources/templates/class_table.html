@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,41 +25,30 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">User List</a>
             </li>
-            <li th:if="${user}">
-                <h2 th:text="${user.userName}"></h2>
-            </li>
         </ul>
     </div>
 </nav>
 <div class="container center">
-
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th>編號</th>
+            <th>課程</th>
+            <th>項目</th>
+            <th>講師</th>
+            <th>週數</th>
+            <th>時間</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+        <tr th:each="class : ${classList}">
+
+            <td th:text="${class.id}">id</td>
+            <td th:text="${class.title}">title</td>
+            <td th:text="${class.subTitle}">subTitle</td>
+            <td th:text="${class.speaker}">speaker</td>
+            <td th:text="${class.weekly}">weekly</td>
+            <td th:text="${class.date}">date</td>
         </tr>
         </tbody>
     </table>
