@@ -11,8 +11,8 @@ import java.util.Objects;
 public class IndexController {
     @GetMapping({"/"})
     public String indexPage() {
-        return "login";
-//        return "test";
+//        return "login";
+        return "test";
     }
 
     @GetMapping({"/timeTable"})

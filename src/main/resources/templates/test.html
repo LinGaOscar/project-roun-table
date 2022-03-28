@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v13.0"
-            nonce="GsNajuPl"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.6.0.min.js}"
+            src="../static/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -65,16 +64,15 @@
     }
 
     function webShare() {
+        let shareData = {
+            title: 'ts-star',
+            text: 'asdas %0a afagwg',
+            url: 'tw.yahoo.com'
+        }
         if (navigator.share) {
-            navigator.share({
-                title: '標題',
-                text: '文字描述',
-                url: 'https://shubo.io/',
-            })
-                .then(() => alert('成功！'))
-                .catch((error) => alert(error));
+            navigator.share(shareData);
         } else {
-            alert('失敗！');
+            alert("q1sd")
         }
     }
 
