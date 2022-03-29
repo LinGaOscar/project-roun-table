@@ -14,15 +14,6 @@ import java.util.Objects;
 
 @Controller
 public class IndexController {
-    private SysUserServiceImpl sysUserService;
-    private ClassTableServiceImpl classTableService;
-
-    @Autowired
-    public void autoWired(SysUserServiceImpl sysUserService, ClassTableServiceImpl classTableService) {
-        this.sysUserService = sysUserService;
-        this.classTableService = classTableService;
-    }
-
 
     @GetMapping({"/"})
     public String indexPage() {
@@ -30,21 +21,7 @@ public class IndexController {
 //        return "test";
     }
 
-    @GetMapping({"/classTable"})
-    public String timeTablePage(Model model) {
-        List<ClassTable> classTables = classTableService.findAll();
-        model.addAttribute("classList", classTables);
 
-        return "class_table";
-    }
-
-    @GetMapping({"/userTable"})
-    public String userTablePage(Model model) {
-        List<SysUser> sysUsers = sysUserService.findAll();
-        model.addAttribute("userList", sysUsers);
-
-        return "user_table";
-    }
 
     @GetMapping({"/index"})
     public String loginPage(Model model) {
