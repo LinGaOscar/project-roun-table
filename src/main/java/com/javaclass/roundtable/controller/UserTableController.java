@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/userTable")
@@ -37,11 +38,16 @@ public class UserTableController {
     }
 
     @PostMapping("/add")
-    @ResponseBody
-    public String addUser(SysUser sysUser) {
-        SysUser sysUser1 = sysUserService.saveUser(sysUser);
-        System.out.println(sysUser1);
-        return "";
+    public String addUser(SysUser sysUser,Model model) {
+        if (Objects.isNull( sysUserService.findByAccount(sysUser.getAccount()))) {
+            sysUserService.saveUser(sysUser);
+            return "user_table";
+        }else{
+            model.addAttribute("accountError", "Duplicate account");
+            return "user_add_table";
+        }
+
+
     }
 
 }
