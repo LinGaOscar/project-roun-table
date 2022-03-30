@@ -38,16 +38,15 @@ public class UserTableController {
     }
 
     @PostMapping("/add")
-    public String addUser(SysUser sysUser,Model model) {
-        if (Objects.isNull( sysUserService.findByAccount(sysUser.getAccount()))) {
+    public String addUser(SysUser sysUser, Model model) {
+        if (Objects.isNull(sysUserService.findByAccount(sysUser.getAccount()))) {
             sysUserService.saveUser(sysUser);
+            List<SysUser> sysUsers = sysUserService.findAll();
+            model.addAttribute("userList", sysUsers);
             return "user_table";
-        }else{
+        } else {
             model.addAttribute("accountError", "Duplicate account");
             return "user_add_table";
         }
-
-
     }
-
 }
