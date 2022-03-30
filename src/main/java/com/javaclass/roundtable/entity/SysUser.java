@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Table(name = "sys_user")
 public class SysUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "account")

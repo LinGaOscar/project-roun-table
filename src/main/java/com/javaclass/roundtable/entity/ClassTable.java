@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Table(name = "class_table")
 public class ClassTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "title")
@@ -30,7 +30,5 @@ public class ClassTable {
 
     @Column(name = "seq_no")
     private Integer seqNo;
-
-
-
+    
 }

@@ -19,7 +19,7 @@ USE `the_round_table`;
 
 -- 傾印  資料表 the_round_table.class_table 結構
 CREATE TABLE IF NOT EXISTS `class_table` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `date` varchar(255) DEFAULT NULL,
   `seq_no` int(11) DEFAULT NULL,
   `speaker` varchar(255) DEFAULT NULL,
@@ -27,18 +27,18 @@ CREATE TABLE IF NOT EXISTS `class_table` (
   `title` varchar(255) DEFAULT NULL,
   `weekly` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 
 -- 取消選取資料匯出。
 
 -- 傾印  資料表 the_round_table.sys_user 結構
 CREATE TABLE IF NOT EXISTS `sys_user` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `account` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 -- 取消選取資料匯出。
 
