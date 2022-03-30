@@ -39,8 +39,8 @@ public class UserTableController {
     @PostMapping("/add")
     @ResponseBody
     public String addUser(SysUser sysUser) {
-        //SysUser sysUser1 = sysUserService.saveUser(sysUser);
-        System.out.println(sysUser);
+        SysUser sysUser1 = sysUserService.saveUser(sysUser);
+        System.out.println(sysUser1);
         return "";
     }
 
