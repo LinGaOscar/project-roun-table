@@ -30,5 +30,5 @@ public class ClassTable {
 
     @Column(name = "seq_no")
     private Integer seqNo;
-    
+
 }
