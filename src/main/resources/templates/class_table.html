@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Class Table</title>
@@ -39,20 +39,26 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="class : ${classList}">
+        <tr th:if="${classList}" th:each="class : ${classList}">
 
-            <td th:text="${class.id}">id</td>
-            <td th:text="${class.title}">title</td>
-            <td th:text="${class.subTitle}">subTitle</td>
-            <td th:text="${class.speaker}">speaker</td>
-            <td th:text="${class.weekly}">weekly</td>
-            <td th:text="${class.date}">date</td>
+            <td th:text="${class.id}" class="classId">id</td>
+            <td th:text="${class.title}" class="classTitle">title</td>
+            <td th:text="${class.subTitle}" class="classSubTitle">subTitle</td>
+            <td th:text="${class.speaker}" class="classSpeaker">speaker</td>
+            <td th:text="${class.weekly}" class="classWeekly">weekly</td>
+            <td th:text="${class.date}" class="classDate">date</td>
+            <td><input type="button" value="edit"></td>
         </tr>
         </tbody>
     </table>
 </div>
 <script>
 
+    $(":button").on("click", function () {
+        let id = $(this).closest("tr").find(".classId").text();
+
+        let title = $(this).closest("tr").find(".classTitle").text();
+    });
 </script>
 </body>
 </html>
