@@ -56,8 +56,22 @@
 
     $(":button").on("click", function () {
         let id = $(this).closest("tr").find(".classId").text();
-
         let title = $(this).closest("tr").find(".classTitle").text();
+        let subTitle = $(this).closest("tr").find(".classSubTitle").text();
+        let speaker = $(this).closest("tr").find(".classSpeaker").text();
+        let weekly = $(this).closest("tr").find(".classWeekly").text();
+        let date = $(this).closest("tr").find(".classDate").text();
+        const classTable = {
+            "id": id,
+            "title": title,
+            "subTitle": subTitle,
+            "speaker": speaker,
+            "weekly": weekly,
+            "date": date
+        }
+        $.post("/classTable/api/editTable", classTable, function (result) {
+            console.log(result);
+        });
     });
 </script>
 </body>

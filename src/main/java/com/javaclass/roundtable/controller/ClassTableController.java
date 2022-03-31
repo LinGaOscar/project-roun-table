@@ -1,11 +1,13 @@
 package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.ClassTable;
+import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.service.ClassTableServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,5 +36,12 @@ public class ClassTableController {
     @ResponseBody
     public List<ClassTable> getAllTable() {
         return classTableService.findAll();
+    }
+
+    @PostMapping({"/api/editTable"})
+    @ResponseBody
+    public String  getAllTable(ClassTable classTable) {
+        System.out.println(classTable);
+        return "123";
     }
 }

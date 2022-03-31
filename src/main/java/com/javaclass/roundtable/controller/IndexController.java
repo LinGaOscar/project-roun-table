@@ -26,8 +26,8 @@ public class IndexController {
     @GetMapping({"/index"})
     public String loginPage(Model model) {
         SysUser sysUser = (SysUser) model.asMap().get("user");
-        System.out.println(model.addAttribute("user"));
-        System.out.println(sysUser);
+//        System.out.println(model.addAttribute("user"));
+//        System.out.println(sysUser);
         if (Objects.isNull(sysUser)) {
 
         }
