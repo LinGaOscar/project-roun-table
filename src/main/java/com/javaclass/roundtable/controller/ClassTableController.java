@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/classTable")
@@ -21,7 +23,10 @@ public class ClassTableController {
     }
 
     @GetMapping()
-    public String timeTablePage(Model model) {
+    public String timeTablePage(Model model, HttpSession httpSession) {
+        if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
+            return "/login";
+        }
         List<ClassTable> classTables = classTableService.findAll();
         model.addAttribute("classList", classTables);
         return "class_table";
