@@ -6,10 +6,7 @@ import com.javaclass.roundtable.service.ClassTableServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,23 +22,21 @@ public class ClassTableController {
 
     @GetMapping()
     public String timeTablePage(Model model) {
-        List<ClassTable> classTables = getAllTable();
+        List<ClassTable> classTables = classTableService.findAll();
         model.addAttribute("classList", classTables);
-
         return "class_table";
     }
 
-
-    @GetMapping({"/api/getTable"})
-    @ResponseBody
-    public List<ClassTable> getAllTable() {
-        return classTableService.findAll();
+    @GetMapping({"/editTable/{id}"})
+    public String editTablePage(@PathVariable("id") long id, Model model) {
+        ClassTable classTable = classTableService.findById(id);
+        model.addAttribute("classTable",classTable);
+        return "class_edit_table";
     }
 
-    @PostMapping({"/api/editTable"})
-    @ResponseBody
-    public String  getAllTable(ClassTable classTable) {
-        System.out.println(classTable);
-        return "123";
+    @PostMapping({"/editTable"})
+    public String editTable(ClassTable classTable) {
+        classTableService.updateTable(classTable);
+        return "redirect:/classTable";
     }
 }

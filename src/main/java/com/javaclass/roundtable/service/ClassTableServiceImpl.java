@@ -27,6 +27,11 @@ public class ClassTableServiceImpl implements ClassTableService {
     }
 
     @Override
+    public ClassTable findById(Long id) {
+        return classTableRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<ClassTable> findAll() {
         return classTableRepository.findAll();
     }

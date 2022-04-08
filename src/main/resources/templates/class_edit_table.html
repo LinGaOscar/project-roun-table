@@ -14,21 +14,24 @@
 <div class="container center">
     <h2>The Round Table Project</h2>
     <p>edit class</p>
-    <form action="/userTable/add" th:action="@{/userTable/add}" method="post">
+    <form action="/editTable" th:action="@{/classTable/editTable}" method="post" th:object="${classTable}">
         <div class="form-group">
-            <label for="account">Account</label>
-            <input type="text" class="form-control" id="account" name="account" placeholder="Enter Account">
-            <div class="alert alert-danger" role="alert" th:if="${accountError}" th:text="${accountError}">
-            </div>
+            <label for="title">title</label>
+            <input type="text" class="form-control" id="title" name="title" th:value="*{title}">
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+            <label for="subTitle">subTitle</label>
+            <input type="text" class="form-control" id="subTitle" name="subTitle" th:value="*{subTitle}">
         </div>
         <div class="form-group">
-            <label for="userName">Name</label>
-            <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter Name">
+            <label for="speaker">speaker</label>
+            <input type="text" class="form-control" id="speaker" name="speaker" th:value="*{speaker}">
         </div>
+
+        <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" name="weekly" th:value="*{weekly}">
+        <input type="hidden" name="date" th:value="*{date}">
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

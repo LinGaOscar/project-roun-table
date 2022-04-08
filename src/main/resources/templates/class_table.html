@@ -14,14 +14,13 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/index">Home</a>
-
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="/classTable">Class Table</a>
+                <a class="nav-link" href="class_table.html" th:href="@{/classTable}">Class Table</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/userTable">User List</a>
+                <a class="nav-link" href="user_table.html" th:href="@{/userTable}">User List</a>
             </li>
         </ul>
     </div>
@@ -36,43 +35,22 @@
             <th>講師</th>
             <th>週數</th>
             <th>時間</th>
+            <th>修改</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${classList}" th:each="class : ${classList}">
-
             <td th:text="${class.id}" class="classId">id</td>
             <td th:text="${class.title}" class="classTitle">title</td>
             <td th:text="${class.subTitle}" class="classSubTitle">subTitle</td>
             <td th:text="${class.speaker}" class="classSpeaker">speaker</td>
             <td th:text="${class.weekly}" class="classWeekly">weekly</td>
             <td th:text="${class.date}" class="classDate">date</td>
-            <td><input type="button" value="edit"></td>
+            <td><a href="#" th:href="@{/classTable/editTable/{id}(id=${class.id})}">edit</a></td>
         </tr>
         </tbody>
     </table>
 </div>
-<script>
 
-    $(":button").on("click", function () {
-        let id = $(this).closest("tr").find(".classId").text();
-        let title = $(this).closest("tr").find(".classTitle").text();
-        let subTitle = $(this).closest("tr").find(".classSubTitle").text();
-        let speaker = $(this).closest("tr").find(".classSpeaker").text();
-        let weekly = $(this).closest("tr").find(".classWeekly").text();
-        let date = $(this).closest("tr").find(".classDate").text();
-        const classTable = {
-            "id": id,
-            "title": title,
-            "subTitle": subTitle,
-            "speaker": speaker,
-            "weekly": weekly,
-            "date": date
-        }
-        $.post("/classTable/api/editTable", classTable, function (result) {
-            console.log(result);
-        });
-    });
-</script>
 </body>
 </html>

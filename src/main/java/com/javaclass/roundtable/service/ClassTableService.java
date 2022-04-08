@@ -10,6 +10,8 @@ public interface ClassTableService {
 
     ClassTable updateTable(ClassTable classTable);
 
+    ClassTable findById(Long id);
+
     List<ClassTable> findAll();
 
 }

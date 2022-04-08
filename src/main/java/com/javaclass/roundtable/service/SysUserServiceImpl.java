@@ -28,7 +28,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public void deleteUser(long id) {
-
+        sysUserRepository.deleteById(id);
     }
 
     @Override
