@@ -18,4 +18,6 @@ public interface SysUserService {
     List<SysUser> findAll();
 
     SysUser findByAccount(String account);
+
+    SysUser findById(long id);
 }
