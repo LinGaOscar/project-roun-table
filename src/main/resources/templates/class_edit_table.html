@@ -27,10 +27,20 @@
             <label for="speaker">speaker</label>
             <input type="text" class="form-control" id="speaker" name="speaker" th:value="*{speaker}">
         </div>
+        <div class="form-group">
+            <label for="weekly">weekly</label>
+            <input type="text" class="form-control" id="weekly" name="weekly" th:value="*{weekly}">
+        </div>
+        <div class="form-group">
+            <label for="date">date</label>
+            <input type="text" class="form-control" id="date" name="date" th:value="*{date}">
+        </div>
+        <div class="form-group">
+            <label for="seqNo">seqNo</label>
+            <input type="text" class="form-control" id="seqNo" name="seqNo" th:value="*{seqNo}">
+        </div>
 
         <input type="hidden" name="id" th:value="*{id}">
-        <input type="hidden" name="weekly" th:value="*{weekly}">
-        <input type="hidden" name="date" th:value="*{date}">
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

@@ -54,7 +54,6 @@ public class UserTableController {
         }
     }
 
-
     @GetMapping("/update/{id}")
     public String updateUserPage(@PathVariable("id") long id, Model model) {
         SysUser sysuser = sysUserService.findById(id);
@@ -67,5 +66,10 @@ public class UserTableController {
         sysUserService.updateUser(sysUser);
         return "redirect:/userTable";
 
+    }
+    @GetMapping("/delete/{id}")
+    public String deleleUser(@PathVariable("id") long id) {
+        sysUserService.deleteUser(id);
+        return "redirect:/userTable";
     }
 }

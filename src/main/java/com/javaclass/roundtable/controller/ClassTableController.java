@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/classTable")
@@ -28,6 +30,8 @@ public class ClassTableController {
             return "/login";
         }
         List<ClassTable> classTables = classTableService.findAll();
+        //order by SeqNo
+        classTables = classTables.stream().sorted(Comparator.comparing(ClassTable::getSeqNo)).collect(Collectors.toList());
         model.addAttribute("classList", classTables);
         return "class_table";
     }

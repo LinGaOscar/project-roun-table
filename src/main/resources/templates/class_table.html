@@ -13,7 +13,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/index">Home</a>
+    <a class="navbar-brand" href="#" th:href="@{/index}">Home</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
@@ -24,7 +24,6 @@
             </li>
             <li th:if="${session.loginCheck}">
                 <span th:text="${session.userName}"></span>
-                <span th:text="${session.userAccount}"></span>
             </li>
             <li>
                 <a href="#" th:href="@{/logout}" class="btn btn-primary">登出</a>
@@ -36,24 +35,25 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>編號</th>
+            <th>週數</th>
             <th>課程</th>
             <th>項目</th>
             <th>講師</th>
-            <th>週數</th>
             <th>時間</th>
+            <th>排序</th>
             <th>修改</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${classList}" th:each="class : ${classList}">
-            <td th:text="${class.id}" class="classId">id</td>
-            <td th:text="${class.title}" class="classTitle">title</td>
-            <td th:text="${class.subTitle}" class="classSubTitle">subTitle</td>
-            <td th:text="${class.speaker}" class="classSpeaker">speaker</td>
-            <td th:text="${class.weekly}" class="classWeekly">weekly</td>
-            <td th:text="${class.date}" class="classDate">date</td>
-            <td><a href="#" th:href="@{/classTable/editTable/{id}(id=${class.id})}">edit</a></td>
+        <tr th:if="${classList}" th:each="class : ${classList}" th:object="${class}">
+            <td th:text="*{weekly}">weekly</td>
+            <td th:text="*{title}">title</td>
+            <td th:text="*{subTitle}">subTitle</td>
+            <td th:text="*{speaker}">speaker</td>
+            <td th:text="*{date}">date</td>
+            <td th:text="*{seqNo}">id</td>
+            <td><a href="#" th:href="@{/classTable/editTable/{id}(id=*{id})}" class="btn btn-primary">edit</a>
+            </td>
         </tr>
         </tbody>
     </table>

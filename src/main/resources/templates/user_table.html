@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/index">Home</a>
+    <a class="navbar-brand" href="#" th:href="@{/index}">Home</a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
@@ -24,7 +24,6 @@
             </li>
             <li th:if="${session.loginCheck}">
                 <span th:text="${session.userName}"></span>
-                <span th:text="${session.userAccount}"></span>
             </li>
             <li>
                 <a href="#" th:href="@{/logout}" class="btn btn-primary">登出</a>
@@ -41,14 +40,20 @@
             <th>帳號</th>
             <th>密碼</th>
             <th>姓名</th>
+            <th>編輯</th>
+            <th>刪除</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${userList}">
-            <td th:text="${user.id}">id</td>
-            <td th:text="${user.account}">account</td>
-            <td th:text="${user.password}">password</td>
-            <td th:text="${user.userName}">name</td>
+        <tr th:each="user : ${userList}" th:object="${user}">
+            <td th:text="*{id}">id</td>
+            <td th:text="*{account}">account</td>
+            <td th:text="*{password}">password</td>
+            <td th:text="*{userName}">name</td>
+            <td><a href="#" th:href="@{/userTable/update/{id}(id=${user.id})}"
+                   class="btn btn-primary">edit</a></td>
+            <td><a href="#" th:href="@{/userTable/delete/{id}(id=${user.id})}"
+                   class="btn btn-danger">delete</a></td>
         </tr>
         </tbody>
     </table>
