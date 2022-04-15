@@ -14,7 +14,7 @@
 <div class="container center">
     <h2>The Round Table Project</h2>
     <p>edit class</p>
-    <form action="/editTable" th:action="@{/classTable/editTable}" method="post" th:object="${classTable}">
+    <form action="#" th:action="@{/classTable/editTable}" method="post" th:object="${classTable}">
         <div class="form-group">
             <label for="title">title</label>
             <input type="text" class="form-control" id="title" name="title" th:value="*{title}">

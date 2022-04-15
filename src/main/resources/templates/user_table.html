@@ -50,9 +50,9 @@
             <td th:text="*{account}">account</td>
             <td th:text="*{password}">password</td>
             <td th:text="*{userName}">name</td>
-            <td><a href="#" th:href="@{/userTable/update/{id}(id=${user.id})}"
+            <td><a href="#" th:href="@{/userTable/update/{id}(id=*{id})}"
                    class="btn btn-primary">edit</a></td>
-            <td><a href="#" th:href="@{/userTable/delete/{id}(id=${user.id})}"
+            <td><a href="#" th:href="@{/userTable/delete/{id}(id=*{id})}"
                    class="btn btn-danger">delete</a></td>
         </tr>
         </tbody>

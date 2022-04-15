@@ -14,7 +14,7 @@
 <div class="container center">
     <h2>The Round Table Project</h2>
     <p>Add User</p>
-    <form action="/userTable/add" th:action="@{/userTable/add}" method="post" th:object = "${user}">
+    <form action="#" th:action="@{/userTable/add}" method="post" th:object = "${user}">
         <input type="hidden"name="id" th:value = "*{id}">
         <div class="form-group">
             <label for="account">Account</label>
