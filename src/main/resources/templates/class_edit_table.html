@@ -43,7 +43,13 @@
         <input type="hidden" name="id" th:value="*{id}">
 
         <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-danger" onclick="goBack()">回上一頁</button>
     </form>
 </div>
+<script>
+    function goBack(){
+        window.history.back();
+    }
+</script>
 </body>
 </html>
