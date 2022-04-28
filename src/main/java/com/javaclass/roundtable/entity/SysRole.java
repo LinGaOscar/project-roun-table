@@ -6,22 +6,19 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "sys_user")
-public class SysUser {
+@Table(name = "sys_Role")
+public class SysRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "account")
-    private String account;
-
-    @Column(name = "user_name")
-    private String userName;
-
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "role")
     private String role;
+
+    @Column(name = "role_name")
+    private String roleName;
+
+    @Column(name = "function")
+    private String function;
 }

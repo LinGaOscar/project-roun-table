@@ -1,6 +1,8 @@
 package com.javaclass.roundtable.controller;
 
+import com.javaclass.roundtable.entity.SysRole;
 import com.javaclass.roundtable.entity.SysUser;
+import com.javaclass.roundtable.service.SysRoleServiceImpl;
 import com.javaclass.roundtable.service.SysUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ import java.util.Objects;
 @Controller
 public class LoginController {
     private SysUserServiceImpl sysUserService;
+    private SysRoleServiceImpl sysRoleService;
 
     @Autowired
-    public void autoWired(SysUserServiceImpl sysUserService) {
+    public void autoWired(SysUserServiceImpl sysUserService ,SysRoleServiceImpl sysRoleService) {
         this.sysUserService = sysUserService;
+        this.sysRoleService = sysRoleService;
     }
 
     @PostMapping("/login")
@@ -34,9 +38,11 @@ public class LoginController {
             return "login";
         }
         if (sysUser.getPassword().equals(password)) {
+            SysRole sysRole = sysRoleService.findByRole(sysUser.getRole());
             httpSession.setAttribute("loginCheck", "ok");
             httpSession.setAttribute("userName", sysUser.getUserName());
             httpSession.setAttribute("userAccount", sysUser.getAccount());
+            httpSession.setAttribute("role", sysRole.getFunction());
             return "redirect:/index";
         } else {
             model.addAttribute("passwordError", "incorrect password");
@@ -49,6 +55,8 @@ public class LoginController {
         httpSession.removeAttribute("loginCheck");
         httpSession.removeAttribute("userName");
         httpSession.removeAttribute("userAccount");
+        httpSession.removeAttribute("role");
+        //httpSession.invalidate();
         return "login";
     }
 }
