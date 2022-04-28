@@ -32,13 +32,8 @@
             <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter Name" th:value = "*{userName}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button class="btn btn-danger" onclick="goBack()">回上一頁</button>
+        <a class="btn btn-danger" th:href="@{/userTable}">回上一頁</a>
     </form>
 </div>
-<script>
-    function goBack(){
-        window.history.back();
-    }
-</script>
 </body>
 </html>
