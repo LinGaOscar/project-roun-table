@@ -3,6 +3,7 @@ package com.javaclass.roundtable.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.net.ProtocolFamily;
 
 @Data
 @Entity

@@ -2,6 +2,7 @@ package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.service.SysUserServiceImpl;
+import org.hibernate.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
