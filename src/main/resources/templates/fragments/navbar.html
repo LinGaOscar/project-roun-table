@@ -1,4 +1,4 @@
-﻿<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+﻿<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/index}">
             <i class="fa fa-users"></i> RoundTable
@@ -17,18 +17,21 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/myClasses}">My Classes</a>
                 </li>
-                <li class="nav-item">
+                <!-- Admin Only Links -->
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" th:href="@{/venueTable}">Venues</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" th:href="@{/userTable}">User List</a>
                 </li>
             </ul>
             <div class="d-flex align-items-center">
                 <span class="text-light me-3">
-                    <i class="fa fa-user-circle"></i> <span th:text="${session.userName}">User</span>
+                    <i class="fa fa-user-circle"></i> <span sec:authentication="name">User</span>
                 </span>
-                <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm">Logout</a>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
             </div>
         </div>
     </div>
