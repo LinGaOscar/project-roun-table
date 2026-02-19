@@ -1,28 +1,29 @@
-package com.javaclass.roundtable.service;
+﻿package com.javaclass.roundtable.service;
 
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.repository.ClassTableRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+@Slf4j
 @Service
 public class ClassTableServiceImpl implements ClassTableService {
-    private ClassTableRepository classTableRepository;
+    private final ClassTableRepository classTableRepository;
 
-    @Autowired
-    public void autoWired(ClassTableRepository classTableRepository) {
+    public ClassTableServiceImpl(ClassTableRepository classTableRepository) {
         this.classTableRepository = classTableRepository;
     }
 
     @Override
     public ClassTable saveTable(ClassTable classTable) {
+        log.info("Saving new class table entry: {}", classTable.getTitle());
         return classTableRepository.save(classTable);
     }
 
     @Override
     public ClassTable updateTable(ClassTable classTable) {
+        log.info("Updating class table entry ID: {}", classTable.getId());
         return classTableRepository.save(classTable);
     }
 
@@ -34,5 +35,11 @@ public class ClassTableServiceImpl implements ClassTableService {
     @Override
     public List<ClassTable> findAll() {
         return classTableRepository.findAll();
+    }
+
+    @Override
+    public List<ClassTable> findAllOrderBySeqNo() {
+        log.debug("Fetching all class tables ordered by SeqNo");
+        return classTableRepository.findAllByOrderBySeqNoAsc();
     }
 }

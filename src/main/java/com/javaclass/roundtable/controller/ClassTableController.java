@@ -1,26 +1,22 @@
-package com.javaclass.roundtable.controller;
+﻿package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.ClassTable;
-import com.javaclass.roundtable.entity.SysUser;
-import com.javaclass.roundtable.service.ClassTableServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.javaclass.roundtable.exception.BusinessException;
+import com.javaclass.roundtable.service.ClassTableService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/classTable")
 public class ClassTableController {
-    private ClassTableServiceImpl classTableService;
+    private final ClassTableService classTableService;
 
-    @Autowired
-    public void autoWired(ClassTableServiceImpl classTableService) {
+    public ClassTableController(ClassTableService classTableService) {
         this.classTableService = classTableService;
     }
 
@@ -29,9 +25,7 @@ public class ClassTableController {
         if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
             return "/login";
         }
-        List<ClassTable> classTables = classTableService.findAll();
-        //order by SeqNo
-        classTables = classTables.stream().sorted(Comparator.comparing(ClassTable::getSeqNo)).collect(Collectors.toList());
+        List<ClassTable> classTables = classTableService.findAllOrderBySeqNo();
         model.addAttribute("classList", classTables);
         return "class_table";
     }
@@ -39,7 +33,10 @@ public class ClassTableController {
     @GetMapping({"/editTable/{id}"})
     public String editTablePage(@PathVariable("id") long id, Model model) {
         ClassTable classTable = classTableService.findById(id);
-        model.addAttribute("classTable",classTable);
+        if (classTable == null) {
+            throw new BusinessException("Class table record not found for ID: " + id);
+        }
+        model.addAttribute("classTable", classTable);
         return "class_edit_table";
     }
 

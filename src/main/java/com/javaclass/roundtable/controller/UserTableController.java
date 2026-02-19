@@ -1,9 +1,8 @@
-package com.javaclass.roundtable.controller;
+﻿package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.SysUser;
-import com.javaclass.roundtable.service.SysUserServiceImpl;
-import org.hibernate.annotations.Table;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.javaclass.roundtable.exception.BusinessException;
+import com.javaclass.roundtable.service.SysUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +17,9 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/userTable")
 public class UserTableController {
-    private SysUserServiceImpl sysUserService;
+    private final SysUserService sysUserService;
 
-    @Autowired
-    public void autoWired(SysUserServiceImpl sysUserService) {
+    public UserTableController(SysUserService sysUserService) {
         this.sysUserService = sysUserService;
     }
 
@@ -37,8 +35,7 @@ public class UserTableController {
 
     @GetMapping("/add")
     public String addUserPage(Model model) {
-
-        model.addAttribute("user",new SysUser());
+        model.addAttribute("user", new SysUser());
         return "user_add_table";
     }
 
@@ -46,11 +43,9 @@ public class UserTableController {
     public String addUser(SysUser sysUser, Model model) {
         if (Objects.isNull(sysUserService.findByAccount(sysUser.getAccount()))) {
             sysUserService.saveUser(sysUser);
-            List<SysUser> sysUsers = sysUserService.findAll();
-            model.addAttribute("userList", sysUsers);
-            return "user_table";
+            return "redirect:/userTable";
         } else {
-            model.addAttribute("accountError", "Duplicate account");
+            model.addAttribute("accountError", "Duplicate account: " + sysUser.getAccount());
             return "user_add_table";
         }
     }
@@ -58,6 +53,9 @@ public class UserTableController {
     @GetMapping("/update/{id}")
     public String updateUserPage(@PathVariable("id") long id, Model model) {
         SysUser sysuser = sysUserService.findById(id);
+        if (sysuser == null) {
+            throw new BusinessException("User not found for ID: " + id);
+        }
         model.addAttribute("user", sysuser);
         return "user_add_table";
     }
@@ -66,8 +64,8 @@ public class UserTableController {
     public String updateUser(SysUser sysUser) {
         sysUserService.updateUser(sysUser);
         return "redirect:/userTable";
-
     }
+
     @GetMapping("/delete/{id}")
     public String deleleUser(@PathVariable("id") long id) {
         sysUserService.deleteUser(id);

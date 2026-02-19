@@ -1,18 +1,15 @@
-package com.javaclass.roundtable.service;
+﻿package com.javaclass.roundtable.service;
 
 import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.repository.SysUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
-    private SysUserRepository sysUserRepository;
+    private final SysUserRepository sysUserRepository;
 
-    @Autowired
-    public void autoWired(SysUserRepository sysUserRepository) {
+    public SysUserServiceImpl(SysUserRepository sysUserRepository) {
         this.sysUserRepository = sysUserRepository;
     }
 
