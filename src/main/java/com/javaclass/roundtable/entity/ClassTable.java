@@ -1,7 +1,6 @@
-package com.javaclass.roundtable.entity;
+﻿package com.javaclass.roundtable.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Data
@@ -22,13 +21,25 @@ public class ClassTable {
     @Column(name = "weekly")
     private String weekly;
 
-    @Column(name = "speaker")
-    private String speaker;
-
     @Column(name = "date")
     private String date;
 
     @Column(name = "seq_no")
     private Integer seqNo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "venue_id")
+    private Venue venue;
+
+    // Link to the user who is the lecturer/instructor
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instructor_id")
+    private SysUser instructor;
+
+    // Legacy field for compatibility or simple display
+    @Column(name = "speaker")
+    private String speaker;
+
+    @Column(name = "max_participants")
+    private Integer maxParticipants;
 }

@@ -1,9 +1,7 @@
-package com.javaclass.roundtable.entity;
+﻿package com.javaclass.roundtable.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
-import java.net.ProtocolFamily;
 
 @Data
 @Entity
@@ -14,7 +12,7 @@ public class SysUser {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "account")
+    @Column(name = "account", unique = true, nullable = false)
     private String account;
 
     @Column(name = "user_name")
@@ -25,4 +23,14 @@ public class SysUser {
 
     @Column(name = "role")
     private String role;
+
+    // --- Lecturer Specific Fields ---
+    @Column(name = "bio", length = 1000)
+    private String bio;
+
+    @Column(name = "specialty")
+    private String specialty;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 }
