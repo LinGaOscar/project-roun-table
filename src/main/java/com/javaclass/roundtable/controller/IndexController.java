@@ -1,19 +1,14 @@
-package com.javaclass.roundtable.controller;
+﻿package com.javaclass.roundtable.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 @Controller
 public class IndexController {
 
     @GetMapping({"/", "/index"})
-    public String indexPage(HttpSession httpSession) {
-        if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
-            return "/login";
-        }
+    public String indexPage() {
+        // Simplified: Security is now handled by WebSecurityConfig
         return "index";
     }
 

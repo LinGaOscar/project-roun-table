@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/userTable")
@@ -24,10 +22,7 @@ public class UserTableController {
     }
 
     @GetMapping()
-    public String userTablePage(Model model, HttpSession httpSession) {
-        if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
-            return "/login";
-        }
+    public String userTablePage(Model model) {
         List<SysUser> sysUsers = sysUserService.findAll();
         model.addAttribute("userList", sysUsers);
         return "user_table";
@@ -41,7 +36,7 @@ public class UserTableController {
 
     @PostMapping("/add")
     public String addUser(SysUser sysUser, Model model) {
-        if (Objects.isNull(sysUserService.findByAccount(sysUser.getAccount()))) {
+        if (sysUserService.findByAccount(sysUser.getAccount()) == null) {
             sysUserService.saveUser(sysUser);
             return "redirect:/userTable";
         } else {

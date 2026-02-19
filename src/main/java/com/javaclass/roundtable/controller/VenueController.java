@@ -6,8 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
+import java.util.List;
 
 @Controller
 @RequestMapping("/venueTable")
@@ -19,10 +18,7 @@ public class VenueController {
     }
 
     @GetMapping()
-    public String venueListPage(Model model, HttpSession httpSession) {
-        if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
-            return "/login";
-        }
+    public String venueListPage(Model model) {
         model.addAttribute("venueList", venueService.findAll());
         return "venue_table";
     }
