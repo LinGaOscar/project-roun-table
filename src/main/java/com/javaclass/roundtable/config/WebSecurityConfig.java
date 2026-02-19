@@ -9,7 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.ApplicationListener;
+import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -34,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
+                .antMatchers("/css/**", "/js/**", "/images/**", "/static/**", "/login").permitAll()
                 .antMatchers("/userTable/**", "/venueTable/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             .and()
@@ -52,6 +57,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             .and()
-            .csrf().disable(); // Simplified for internal tool; enable in production
+            .csrf().disable();
+    }
+
+    @Bean
+    public ApplicationListener<AuthenticationSuccessEvent> successListener() {
+        return event -> log.info("LOGIN SUCCESS: User [{}] has logged in", event.getAuthentication().getName());
+    }
+
+    @Bean
+    public ApplicationListener<AuthenticationFailureBadCredentialsEvent> failureListener() {
+        return event -> log.warn("LOGIN FAILED: Bad credentials for user [{}]", event.getAuthentication().getName());
     }
 }
