@@ -1,55 +1,79 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Class Table</title>
-    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"
-            src="../static/js/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css"/>
-    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"
-            src="../static/js/bootstrap.bundle.min.js"></script>
+    <title>Edit Class</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-<div class="container center">
-    <h2>The Round Table Project</h2>
-    <p>edit class</p>
-    <form action="#" th:action="@{/classTable/editTable}" method="post" th:object="${classTable}">
-        <div class="form-group">
-            <label for="title">title</label>
-            <input type="text" class="form-control" id="title" name="title" th:value="*{title}">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 th:text="${classTable.id == null ? 'Add New Class' : 'Edit Class Details'}">Class Info</h3>
         </div>
-        <div class="form-group">
-            <label for="subTitle">subTitle</label>
-            <input type="text" class="form-control" id="subTitle" name="subTitle" th:value="*{subTitle}">
-        </div>
-        <div class="form-group">
-            <label for="speaker">speaker</label>
-            <input type="text" class="form-control" id="speaker" name="speaker" th:value="*{speaker}">
-        </div>
-        <div class="form-group">
-            <label for="weekly">weekly</label>
-            <input type="text" class="form-control" id="weekly" name="weekly" th:value="*{weekly}">
-        </div>
-        <div class="form-group">
-            <label for="date">date</label>
-            <input type="text" class="form-control" id="date" name="date" th:value="*{date}">
-        </div>
-        <div class="form-group">
-            <label for="seqNo">seqNo</label>
-            <input type="text" class="form-control" id="seqNo" name="seqNo" th:value="*{seqNo}">
-        </div>
+        <div class="card-body">
+            <form th:action="@{/classTable/saveTable}" th:object="${classTable}" method="post">
+                <input type="hidden" th:field="*{id}">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Course Title</label>
+                        <input type="text" class="form-control" th:field="*{title}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Sub Title</label>
+                        <input type="text" class="form-control" th:field="*{subTitle}">
+                    </div>
+                </div>
 
-        <input type="hidden" name="id" th:value="*{id}">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Date</label>
+                        <input type="text" class="form-control" th:field="*{date}" placeholder="YYYY-MM-DD">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Weekly</label>
+                        <input type="text" class="form-control" th:field="*{weekly}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Sequence No (Sort Order)</label>
+                        <input type="number" class="form-control" th:field="*{seqNo}">
+                    </div>
+                </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button class="btn btn-danger" onclick="goBack()">回上一頁</button>
-    </form>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Assign Lecturer</label>
+                        <select class="form-select" th:field="*{instructor}">
+                            <option value="">-- Select Lecturer --</option>
+                            <option th:each="l : ${lecturers}" th:value="${l.id}" th:text="${l.userName}"></option>
+                        </select>
+                        <small class="text-muted">Or manual input: </small>
+                        <input type="text" class="form-control form-control-sm mt-1" th:field="*{speaker}" placeholder="Legacy Speaker Name">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Assign Venue</label>
+                        <select class="form-select" th:field="*{venue}">
+                            <option value="">-- Select Venue --</option>
+                            <option th:each="v : ${venues}" th:value="${v.id}" th:text="${v.name + ' (Cap: ' + v.capacity + ')'}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Max Participants</label>
+                    <input type="number" class="form-control" th:field="*{maxParticipants}">
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                    <a th:href="@{/classTable}" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<script>
-    function goBack(){
-        window.history.back();
-    }
-</script>
 </body>
 </html>

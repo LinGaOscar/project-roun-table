@@ -2,10 +2,12 @@
 
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.entity.SysUser;
+import com.javaclass.roundtable.entity.Venue;
 import com.javaclass.roundtable.exception.BusinessException;
 import com.javaclass.roundtable.service.ClassTableService;
 import com.javaclass.roundtable.service.EnrollmentService;
 import com.javaclass.roundtable.service.SysUserService;
+import com.javaclass.roundtable.service.VenueService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +25,16 @@ public class ClassTableController {
     private final ClassTableService classTableService;
     private final EnrollmentService enrollmentService;
     private final SysUserService sysUserService;
+    private final VenueService venueService;
 
     public ClassTableController(ClassTableService classTableService, 
                                 EnrollmentService enrollmentService,
-                                SysUserService sysUserService) {
+                                SysUserService sysUserService,
+                                VenueService venueService) {
         this.classTableService = classTableService;
         this.enrollmentService = enrollmentService;
         this.sysUserService = sysUserService;
+        this.venueService = venueService;
     }
 
     @GetMapping()
@@ -47,37 +52,44 @@ public class ClassTableController {
         if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
             return "/login";
         }
-        
         try {
             String account = (String) httpSession.getAttribute("userAccount");
             SysUser user = sysUserService.findByAccount(account);
-            
             enrollmentService.enroll(user.getId(), classId);
             redirectAttributes.addFlashAttribute("successMessage", "Enrollment successful!");
         } catch (BusinessException e) {
-            log.warn("Enrollment failed: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (Exception e) {
-            log.error("Unexpected error during enrollment", e);
             redirectAttributes.addFlashAttribute("errorMessage", "An unexpected error occurred.");
         }
-        
         return "redirect:/classTable";
     }
 
-    @GetMapping({"/editTable/{id}"})
-    public String editTablePage(@PathVariable("id") long id, Model model) {
-        ClassTable classTable = classTableService.findById(id);
-        if (classTable == null) {
-            throw new BusinessException("Class table record not found for ID: " + id);
+    @GetMapping({"/editTable/{id}", "/addTable"})
+    public String editTablePage(@PathVariable(value = "id", required = false) Long id, Model model) {
+        ClassTable classTable;
+        if (id != null) {
+            classTable = classTableService.findById(id);
+            if (classTable == null) throw new BusinessException("Class not found.");
+        } else {
+            classTable = new ClassTable();
         }
+        
         model.addAttribute("classTable", classTable);
+        model.addAttribute("venues", venueService.findAll());
+        // Filter users who are lecturers - assuming 'role' contains 'lecturer' or similar
+        // For now, listing all users to allow selection
+        model.addAttribute("lecturers", sysUserService.findAll());
         return "class_edit_table";
     }
 
-    @PostMapping({"/editTable"})
-    public String editTable(ClassTable classTable) {
-        classTableService.updateTable(classTable);
+    @PostMapping({"/saveTable"})
+    public String saveTable(@ModelAttribute ClassTable classTable) {
+        if (classTable.getId() != null) {
+            classTableService.updateTable(classTable);
+        } else {
+            classTableService.saveTable(classTable);
+        }
         return "redirect:/classTable";
     }
 }

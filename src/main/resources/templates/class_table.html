@@ -2,58 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Class Table</title>
+    <title>Class Table - RoundTable</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" th:href="@{/index}">RoundTable</a>
-    <div class="navbar-nav">
-        <a class="nav-link active" th:href="@{/classTable}">Class Table</a>
-        <a class="nav-link" th:href="@{/myClasses}">My Classes</a>
-        <a class="nav-link" th:href="@{/venueTable}">Venues</a>
-    </div>
-</nav>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container mt-4">
-    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-        <span th:text="${successMessage}">Success!</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <span th:text="${errorMessage}">Error!</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
-    <h2>Available Classes</h2>
-    <table class="table table-striped mt-3">
-        <thead>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Available Classes</h2>
+        <a th:href="@{/classTable/addTable}" class="btn btn-primary">Add New Class</a>
+    </div>
+
+    <table class="table table-hover shadow-sm">
+        <thead class="table-dark">
         <tr>
             <th>Title</th>
-            <th>Speaker / Lecturer</th>
+            <th>Lecturer</th>
             <th>Venue</th>
-            <th>Date</th>
+            <th>Schedule</th>
             <th>Participants</th>
-            <th>Action</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c : ${classList}">
-            <td th:text="${c.title}">Title</td>
             <td>
-                <span th:if="${c.instructor == null}" th:text="${c.speaker}">Speaker</span>
-                <a th:if="${c.instructor != null}" 
-                   th:href="@{/lecturer/{id}(id=${c.instructor.id})}" 
-                   th:text="${c.instructor.userName}">Lecturer</a>
+                <strong th:text="${c.title}">Title</strong><br>
+                <small class="text-muted" th:text="${c.subTitle}">Subtitle</small>
             </td>
-            <td th:text="${c.venue != null ? v.name : 'TBD'}" th:with="v=${c.venue}">Venue</td>
-            <td th:text="${c.date}">Date</td>
+            <td>
+                <a th:if="${c.instructor != null}" th:href="@{/lecturer/{id}(id=${c.instructor.id})}" th:text="${c.instructor.userName}">Lecturer</a>
+                <span th:if="${c.instructor == null}" th:text="${c.speaker}">Speaker</span>
+            </td>
+            <td>
+                <span th:if="${c.venue != null}" th:text="${c.venue.name}">Venue</span>
+                <span th:if="${c.venue == null}" class="text-muted italic">TBD</span>
+            </td>
+            <td>
+                <span th:text="${c.date}">Date</span><br>
+                <small class="badge bg-secondary" th:text="${c.weekly}">Weekly</small>
+            </td>
             <td th:text="${c.maxParticipants != null ? 'Max: ' + c.maxParticipants : 'Unlimited'}">Capacity</td>
             <td>
-                <form th:action="@{/classTable/enroll/{id}(id=${c.id})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-success">Enroll</button>
-                </form>
-                <a th:href="@{/classTable/editTable/{id}(id=${c.id})}" class="btn btn-sm btn-primary">Edit</a>
+                <div class="btn-group">
+                    <form th:action="@{/classTable/enroll/{id}(id=${c.id})}" method="post">
+                        <button type="submit" class="btn btn-sm btn-success">Enroll</button>
+                    </form>
+                    <a th:href="@{/classTable/editTable/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary ms-1">Edit</a>
+                </div>
             </td>
         </tr>
         </tbody>
