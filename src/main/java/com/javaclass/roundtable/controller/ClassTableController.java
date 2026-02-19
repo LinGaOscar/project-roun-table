@@ -6,14 +6,17 @@ import com.javaclass.roundtable.exception.BusinessException;
 import com.javaclass.roundtable.service.ClassTableService;
 import com.javaclass.roundtable.service.EnrollmentService;
 import com.javaclass.roundtable.service.SysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Controller
 @RequestMapping("/classTable")
 public class ClassTableController {
@@ -40,15 +43,24 @@ public class ClassTableController {
     }
 
     @PostMapping("/enroll/{id}")
-    public String enroll(@PathVariable("id") long classId, HttpSession httpSession) {
+    public String enroll(@PathVariable("id") long classId, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         if (Objects.isNull(httpSession.getAttribute("loginCheck"))) {
             return "/login";
         }
         
-        String account = (String) httpSession.getAttribute("userAccount");
-        SysUser user = sysUserService.findByAccount(account);
-        
-        enrollmentService.enroll(user.getId(), classId);
+        try {
+            String account = (String) httpSession.getAttribute("userAccount");
+            SysUser user = sysUserService.findByAccount(account);
+            
+            enrollmentService.enroll(user.getId(), classId);
+            redirectAttributes.addFlashAttribute("successMessage", "Enrollment successful!");
+        } catch (BusinessException e) {
+            log.warn("Enrollment failed: {}", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (Exception e) {
+            log.error("Unexpected error during enrollment", e);
+            redirectAttributes.addFlashAttribute("errorMessage", "An unexpected error occurred.");
+        }
         
         return "redirect:/classTable";
     }

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Venue</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 th:text="${venue.id == null ? 'Add Venue' : 'Edit Venue'}">Venue</h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/venueTable/save}" th:object="${venue}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-label form-control" th:field="*{name}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Capacity</label>
+                    <input type="number" class="form-label form-control" th:field="*{capacity}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-label form-control" th:field="*{address}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-label form-control" th:field="*{description}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <a th:href="@{/venueTable}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

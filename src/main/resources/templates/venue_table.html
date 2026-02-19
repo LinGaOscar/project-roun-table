@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Venue Management</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/index}">RoundTable</a>
+    <div class="navbar-nav">
+        <a class="nav-link" th:href="@{/classTable}">Class Table</a>
+        <a class="nav-link active" th:href="@{/venueTable}">Venues</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Venue Management</h2>
+        <a th:href="@{/venueTable/add}" class="btn btn-primary">Add New Venue</a>
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Address</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="v : ${venueList}">
+            <td th:text="${v.name}">Name</td>
+            <td th:text="${v.capacity}">Capacity</td>
+            <td th:text="${v.address}">Address</td>
+            <td th:text="${v.description}">Description</td>
+            <td>
+                <a th:href="@{/venueTable/edit/{id}(id=${v.id})}" class="btn btn-sm btn-info">Edit</a>
+                <a th:href="@{/venueTable/delete/{id}(id=${v.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

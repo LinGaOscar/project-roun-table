@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Classes</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/index}">RoundTable</a>
+    <div class="navbar-nav">
+        <a class="nav-link" th:href="@{/classTable}">Class Table</a>
+        <a class="nav-link active" th:href="@{/myClasses}">My Classes</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>My Enrolled Classes</h2>
+    <div class="table-responsive mt-3">
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Class Title</th>
+                <th>Lecturer</th>
+                <th>Venue</th>
+                <th>Date</th>
+                <th>Enrollment Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${enrollments}">
+                <td th:text="${e.classTable.title}">Title</td>
+                <td th:text="${e.classTable.instructor != null ? e.classTable.instructor.userName : e.classTable.speaker}">Lecturer</td>
+                <td th:text="${e.classTable.venue != null ? e.classTable.venue.name : 'TBD'}">Venue</td>
+                <td th:text="${e.classTable.date}">Date</td>
+                <td th:text="${#temporals.format(e.enrollmentDate, 'yyyy-MM-dd HH:mm')}">Date</td>
+                <td>
+                    <span class="badge bg-success" th:text="${e.status}">Status</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(enrollments)}">
+                <td colspan="6" class="text-center text-muted">You haven't enrolled in any classes yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/classTable}" class="btn btn-primary">Browse More Classes</a>
+</div>
+</body>
+</html>
