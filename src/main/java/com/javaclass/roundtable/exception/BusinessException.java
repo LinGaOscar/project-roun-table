@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.exception;
+package com.javaclass.roundtable.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

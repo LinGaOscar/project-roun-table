@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.service;
+package com.javaclass.roundtable.service;
 
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.repository.ClassTableRepository;

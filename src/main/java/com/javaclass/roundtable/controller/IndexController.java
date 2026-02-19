@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.controller;
+package com.javaclass.roundtable.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

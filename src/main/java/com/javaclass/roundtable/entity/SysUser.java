@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.entity;
+package com.javaclass.roundtable.entity;
 
 import lombok.Data;
 import javax.persistence.*;

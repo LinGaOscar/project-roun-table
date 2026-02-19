@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.config;
+package com.javaclass.roundtable.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

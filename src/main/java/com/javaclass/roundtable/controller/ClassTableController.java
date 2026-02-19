@@ -1,4 +1,4 @@
-﻿package com.javaclass.roundtable.controller;
+package com.javaclass.roundtable.controller;
 
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.entity.SysUser;
