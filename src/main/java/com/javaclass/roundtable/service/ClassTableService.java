@@ -9,4 +9,5 @@ public interface ClassTableService {
     ClassTable findById(Long id);
     List<ClassTable> findAll();
     List<ClassTable> findAllOrderBySeqNo();
+    List<ClassTable> findByInstructorId(Long instructorId);
 }

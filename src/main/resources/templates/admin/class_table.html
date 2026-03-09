@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Management - RoundTable Admin</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+</head>
+<body>
+<div th:replace="fragments/admin_navbar :: admin_navbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/admin_sidebar :: admin_sidebar"></div>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Class Management</h1>
+                <a th:href="@{/admin/class/add}" class="btn btn-primary">Add New Class</a>
+            </div>
+            
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <table class="table table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Lecturer</th>
+                    <th>Venue</th>
+                    <th>Schedule</th>
+                    <th>Capacity</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${classList}">
+                    <td th:text="${c.id}">ID</td>
+                    <td>
+                        <strong th:text="${c.title}">Title</strong><br>
+                        <small class="text-muted" th:text="${c.subTitle}">Subtitle</small>
+                    </td>
+                    <td>
+                        <span th:if="${c.instructor != null}" th:text="${c.instructor.userName}">Lecturer</span>
+                        <span th:if="${c.instructor == null}" th:text="${c.speaker}">Speaker</span>
+                    </td>
+                    <td>
+                        <span th:if="${c.venue != null}" th:text="${c.venue.name}">Venue</span>
+                        <span th:if="${c.venue == null}" class="text-muted">TBD</span>
+                    </td>
+                    <td>
+                        <span th:text="${c.date}">Date</span><br>
+                        <small class="badge bg-secondary" th:text="${c.weekly}">Weekly</small>
+                    </td>
+                    <td th:text="${c.maxParticipants != null ? c.maxParticipants : 'Unlimited'}">Capacity</td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{/admin/class/edit/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a th:href="@{/admin/class/delete/{id}(id=${c.id})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

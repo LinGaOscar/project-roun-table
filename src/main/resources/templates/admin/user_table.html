@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management - RoundTable Admin</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+</head>
+<body>
+<div th:replace="fragments/admin_navbar :: admin_navbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/admin_sidebar :: admin_sidebar"></div>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">User Management</h1>
+                <a th:href="@{/admin/user/add}" class="btn btn-primary">Add New User</a>
+            </div>
+
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Account</th>
+                    <th>User Name</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${userList}">
+                    <td th:text="${u.id}">ID</td>
+                    <td th:text="${u.account}">Account</td>
+                    <td th:text="${u.userName}">Name</td>
+                    <td>
+                        <span class="badge" th:classappend="${u.role == 'ADMIN' ? 'bg-danger' : (u.role == 'TEACHER' ? 'bg-warning text-dark' : 'bg-info')}" th:text="${u.role}">Role</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{/admin/user/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a th:href="@{/admin/user/delete/{id}(id=${u.id})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

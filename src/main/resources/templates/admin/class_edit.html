@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Class - RoundTable Admin</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+</head>
+<body>
+<div th:replace="fragments/admin_navbar :: admin_navbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/admin_sidebar :: admin_sidebar"></div>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2" th:text="${classTable.id == null ? 'Add New Class' : 'Edit Class'}">Class Info</h1>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/admin/class/save}" th:object="${classTable}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Course Title</label>
+                                <input type="text" class="form-control" th:field="*{title}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Sub Title</label>
+                                <input type="text" class="form-control" th:field="*{subTitle}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Date</label>
+                                <input type="text" class="form-control" th:field="*{date}" placeholder="YYYY-MM-DD">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Weekly</label>
+                                <input type="text" class="form-control" th:field="*{weekly}">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Sequence No (Sort Order)</label>
+                                <input type="number" class="form-control" th:field="*{seqNo}">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Assign Lecturer</label>
+                                <select class="form-select" th:field="*{instructor}">
+                                    <option value="">-- Select Lecturer --</option>
+                                    <option th:each="l : ${lecturers}" th:value="${l.id}" th:text="${l.userName}"></option>
+                                </select>
+                                <small class="text-muted">Or manual input: </small>
+                                <input type="text" class="form-control form-control-sm mt-1" th:field="*{speaker}" placeholder="Legacy Speaker Name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Assign Venue</label>
+                                <select class="form-select" th:field="*{venue}">
+                                    <option value="">-- Select Venue --</option>
+                                    <option th:each="v : ${venues}" th:value="${v.id}" th:text="${v.name + ' (Cap: ' + v.capacity + ')'}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Max Participants</label>
+                            <input type="number" class="form-control" th:field="*{maxParticipants}">
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                            <a th:href="@{/admin/class}" class="btn btn-secondary px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

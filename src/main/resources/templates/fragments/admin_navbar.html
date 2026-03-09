@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark sticky-top flex-md-nowrap p-0 shadow" th:fragment="admin_navbar">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" th:href="@{/admin}">RoundTable Admin</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="w-100"></div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item text-nowrap">
+                <span class="nav-link text-light">
+                    <i class="fa fa-user"></i> <span sec:authentication="name">Admin</span>
+                    (<span sec:authentication="principal.authorities">ROLE_ADMIN</span>)
+                </span>
+            </li>
+            <li class="nav-item text-nowrap">
+                <form th:action="@{/logout}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-link nav-link text-light">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User - RoundTable Admin</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+</head>
+<body>
+<div th:replace="fragments/admin_navbar :: admin_navbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/admin_sidebar :: admin_sidebar"></div>
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2" th:text="${user.id == null ? 'Add User' : 'Edit User'}">User</h1>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="${user.id == null ? '/admin/user/add' : '/admin/user/edit'}" method="post" th:object="${user}">
+                        <input type="hidden" name="id" th:value="*{id}">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Account</label>
+                            <input type="text" class="form-control" name="account" placeholder="Enter Account" th:value="*{account}">
+                            <div class="alert alert-danger" role="alert" th:if="${accountError}" th:text="${accountError}"></div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Password <span th:if="*{id != null}" class="text-muted">(Leave blank to keep current)</span></label>
+                            <input type="password" class="form-control" name="password" placeholder="Enter Password" th:value="*{password}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="userName" placeholder="Enter Name" th:value="*{userName}">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" name="role">
+                                <option value="STUDENT" th:selected="*{role == 'STUDENT'}">Student</option>
+                                <option value="TEACHER" th:selected="*{role == 'TEACHER'}">Teacher</option>
+                                <option value="ADMIN" th:selected="*{role == 'ADMIN'}">Admin</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-control" name="bio" placeholder="Enter Bio" th:value="*{bio}"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Specialty</label>
+                            <input type="text" class="form-control" name="specialty" placeholder="Enter Specialty" th:value="*{specialty}">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a th:href="@{/admin/user}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

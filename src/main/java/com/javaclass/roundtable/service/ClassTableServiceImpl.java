@@ -42,4 +42,10 @@ public class ClassTableServiceImpl implements ClassTableService {
         log.debug("Fetching all class tables ordered by SeqNo");
         return classTableRepository.findAllByOrderBySeqNoAsc();
     }
+
+    @Override
+    public List<ClassTable> findByInstructorId(Long instructorId) {
+        log.debug("Fetching classes for instructor ID: {}", instructorId);
+        return classTableRepository.findByInstructorId(instructorId);
+    }
 }

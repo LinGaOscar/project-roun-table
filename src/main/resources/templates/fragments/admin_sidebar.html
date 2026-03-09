@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse" th:fragment="admin_sidebar">
+        <div class="position-sticky pt-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin}">
+                        <i class="fa fa-dashboard"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin/class}">
+                        <i class="fa fa-book"></i> Classes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin/venue}">
+                        <i class="fa fa-building"></i> Venues
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin/user}">
+                        <i class="fa fa-users"></i> Users
+                    </a>
+                </li>
+            </ul>
+            <hr class="text-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light" th:href="@{/}">
+                        <i class="fa fa-home"></i> Back to Home
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>

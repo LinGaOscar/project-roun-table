@@ -8,4 +8,5 @@ import java.util.List;
 public interface ClassTableRepository extends JpaRepository<ClassTable,Long> {
     List<ClassTable> findAllByOrderBySeqNoAsc();
     List<ClassTable> findByInstructor(SysUser instructor);
+    List<ClassTable> findByInstructorId(Long instructorId);
 }
