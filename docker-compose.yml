@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-07310731}
+      MARIADB_DATABASE: the_round_table
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./doc/DB_TABLE.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./doc/DB_DATA.sql:/docker-entrypoint-initdb.d/02_data.sql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:mariadb://db:3306/the_round_table
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD:-07310731}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mariadb_data:
