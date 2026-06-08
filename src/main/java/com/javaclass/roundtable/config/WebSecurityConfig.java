@@ -61,7 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             .and()
-            .csrf().disable();
+            .headers()
+                .xssProtection().and()
+                .contentTypeOptions().and()
+                .frameOptions().deny();
     }
 
     @Bean
