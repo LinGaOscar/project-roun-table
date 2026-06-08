@@ -6,9 +6,11 @@ import com.javaclass.roundtable.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -36,29 +38,40 @@ public class AdminUserController {
     }
 
     @PostMapping("/add")
-    public String addUser(SysUser sysUser, Model model, RedirectAttributes redirectAttributes) {
-        if (sysUserService.findByAccount(sysUser.getAccount()) == null) {
-            sysUserService.saveUser(sysUser);
-            redirectAttributes.addFlashAttribute("successMessage", "User created successfully!");
-            return "redirect:/admin/user";
-        } else {
+    public String addUser(@Valid @ModelAttribute("user") SysUser sysUser, BindingResult result,
+                          Model model, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "admin/user_edit";
+        }
+        if (sysUser.getPassword() == null || sysUser.getPassword().length() < 6) {
+            model.addAttribute("passwordError", "Password must be at least 6 characters");
+            return "admin/user_edit";
+        }
+        if (sysUserService.findByAccount(sysUser.getAccount()) != null) {
             model.addAttribute("accountError", "Duplicate account: " + sysUser.getAccount());
             return "admin/user_edit";
         }
+        sysUserService.saveUser(sysUser);
+        redirectAttributes.addFlashAttribute("successMessage", "User created successfully!");
+        return "redirect:/admin/user";
     }
 
     @GetMapping("/edit/{id}")
     public String updateUserPage(@PathVariable("id") long id, Model model) {
-        SysUser sysuser = sysUserService.findById(id);
-        if (sysuser == null) {
+        SysUser sysUser = sysUserService.findById(id);
+        if (sysUser == null) {
             throw new BusinessException("User not found for ID: " + id);
         }
-        model.addAttribute("user", sysuser);
+        model.addAttribute("user", sysUser);
         return "admin/user_edit";
     }
 
     @PostMapping("/edit")
-    public String updateUser(SysUser sysUser, RedirectAttributes redirectAttributes) {
+    public String updateUser(@Valid @ModelAttribute("user") SysUser sysUser, BindingResult result,
+                             RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "admin/user_edit";
+        }
         sysUserService.updateUser(sysUser);
         redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
         return "redirect:/admin/user";

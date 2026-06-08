@@ -25,18 +25,24 @@
                         
                         <div class="mb-3">
                             <label class="form-label">Account</label>
-                            <input type="text" class="form-control" name="account" placeholder="Enter Account" th:value="*{account}">
-                            <div class="alert alert-danger" role="alert" th:if="${accountError}" th:text="${accountError}"></div>
+                            <input type="text" class="form-control" th:field="*{account}" placeholder="Enter Account"
+                                   th:classappend="${#fields.hasErrors('account')} ? ' is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{account}"></div>
+                            <div class="alert alert-danger mt-1" role="alert" th:if="${accountError}" th:text="${accountError}"></div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Password <span th:if="*{id != null}" class="text-muted">(Leave blank to keep current)</span></label>
-                            <input type="password" class="form-control" name="password" placeholder="Enter Password" th:value="*{password}">
+                            <input type="password" class="form-control" name="password" placeholder="Enter Password"
+                                   th:classappend="${passwordError != null} ? ' is-invalid'">
+                            <div class="invalid-feedback" th:if="${passwordError}" th:text="${passwordError}"></div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="userName" placeholder="Enter Name" th:value="*{userName}">
+                            <input type="text" class="form-control" th:field="*{userName}" placeholder="Enter Name"
+                                   th:classappend="${#fields.hasErrors('userName')} ? ' is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{userName}"></div>
                         </div>
                         
                         <div class="mb-3">

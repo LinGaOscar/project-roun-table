@@ -5,9 +5,11 @@ import com.javaclass.roundtable.service.VenueService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -41,7 +43,11 @@ public class AdminVenueController {
     }
 
     @PostMapping("/save")
-    public String saveVenue(@ModelAttribute Venue venue, RedirectAttributes redirectAttributes) {
+    public String saveVenue(@Valid @ModelAttribute Venue venue, BindingResult result,
+                            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "admin/venue_edit";
+        }
         try {
             venueService.save(venue);
             redirectAttributes.addFlashAttribute("successMessage", "Venue saved successfully!");

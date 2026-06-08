@@ -10,9 +10,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -63,13 +65,17 @@ public class TeacherController {
     }
 
     @PostMapping("/class/save")
-    public String saveClass(@ModelAttribute ClassTable classTable, 
+    public String saveClass(@Valid @ModelAttribute ClassTable classTable, BindingResult result,
                            @AuthenticationPrincipal UserDetails userDetails,
-                           RedirectAttributes redirectAttributes) {
+                           Model model, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("venues", venueService.findAll());
+            return "teacher/course_edit";
+        }
         try {
             SysUser teacher = sysUserService.findByAccount(userDetails.getUsername());
             classTable.setInstructor(teacher);
-            
+
             if (classTable.getId() != null) {
                 ClassTable existing = classTableService.findById(classTable.getId());
                 if (!existing.getInstructor().getId().equals(teacher.getId())) {

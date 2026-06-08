@@ -26,7 +26,9 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Course Title</label>
-                                <input type="text" class="form-control" th:field="*{title}" required>
+                                <input type="text" class="form-control" th:field="*{title}"
+                                       th:classappend="${#fields.hasErrors('title')} ? ' is-invalid'">
+                                <div class="invalid-feedback" th:errors="*{title}"></div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Sub Title</label>

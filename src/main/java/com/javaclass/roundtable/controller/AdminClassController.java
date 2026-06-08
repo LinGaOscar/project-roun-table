@@ -8,9 +8,11 @@ import com.javaclass.roundtable.service.VenueService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -55,7 +57,13 @@ public class AdminClassController {
     }
 
     @PostMapping("/save")
-    public String saveClass(@ModelAttribute ClassTable classTable, RedirectAttributes redirectAttributes) {
+    public String saveClass(@Valid @ModelAttribute ClassTable classTable, BindingResult result,
+                            Model model, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("venues", venueService.findAll());
+            model.addAttribute("lecturers", sysUserService.findAll());
+            return "admin/class_edit";
+        }
         try {
             if (classTable.getId() != null) {
                 classTableService.updateTable(classTable);
