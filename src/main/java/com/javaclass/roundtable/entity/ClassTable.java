@@ -2,6 +2,8 @@ package com.javaclass.roundtable.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -12,6 +14,7 @@ public class ClassTable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     @Column(name = "title")
     private String title;
 
@@ -40,6 +43,7 @@ public class ClassTable {
     @Column(name = "speaker")
     private String speaker;
 
+    @Min(value = 1, message = "Max participants must be at least 1")
     @Column(name = "max_participants")
     private Integer maxParticipants;
 }

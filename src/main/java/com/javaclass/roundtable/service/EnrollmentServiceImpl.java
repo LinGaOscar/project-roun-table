@@ -31,15 +31,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public Enrollment enroll(Long userId, Long classId) {
         SysUser user = sysUserRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException("User not found."));
-        ClassTable classTable = classTableRepository.findById(classId)
+        // Pessimistic write lock prevents concurrent enrollments from racing past capacity check
+        ClassTable classTable = classTableRepository.findByIdWithLock(classId)
                 .orElseThrow(() -> new BusinessException("Class not found."));
 
-        // 1. Check if already enrolled
         if (enrollmentRepository.findByUserAndClassTable(user, classTable).isPresent()) {
             throw new BusinessException("You have already enrolled in this class.");
         }
 
-        // 2. Check capacity
         if (classTable.getMaxParticipants() != null) {
             long currentEnrollments = enrollmentRepository.countByClassTableAndStatus(classTable, "ENROLLED");
             if (currentEnrollments >= classTable.getMaxParticipants()) {
@@ -50,7 +49,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         Enrollment enrollment = new Enrollment();
         enrollment.setUser(user);
         enrollment.setClassTable(classTable);
-        
+
         log.info("User {} enrolled in class {}", user.getAccount(), classTable.getTitle());
         return enrollmentRepository.save(enrollment);
     }

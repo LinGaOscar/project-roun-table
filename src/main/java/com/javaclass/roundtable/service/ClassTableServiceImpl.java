@@ -4,6 +4,7 @@ import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.repository.ClassTableRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -16,12 +17,14 @@ public class ClassTableServiceImpl implements ClassTableService {
     }
 
     @Override
+    @Transactional
     public ClassTable saveTable(ClassTable classTable) {
         log.info("Saving new class table entry: {}", classTable.getTitle());
         return classTableRepository.save(classTable);
     }
 
     @Override
+    @Transactional
     public ClassTable updateTable(ClassTable classTable) {
         log.info("Updating class table entry ID: {}", classTable.getId());
         return classTableRepository.save(classTable);
@@ -47,5 +50,12 @@ public class ClassTableServiceImpl implements ClassTableService {
     public List<ClassTable> findByInstructorId(Long instructorId) {
         log.debug("Fetching classes for instructor ID: {}", instructorId);
         return classTableRepository.findByInstructorId(instructorId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTable(Long id) {
+        log.info("Deleting class table entry ID: {}", id);
+        classTableRepository.deleteById(id);
     }
 }

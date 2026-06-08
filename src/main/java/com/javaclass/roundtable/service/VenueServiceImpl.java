@@ -3,6 +3,7 @@ package com.javaclass.roundtable.service;
 import com.javaclass.roundtable.entity.Venue;
 import com.javaclass.roundtable.repository.VenueRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -24,11 +25,13 @@ public class VenueServiceImpl implements VenueService {
     }
 
     @Override
+    @Transactional
     public Venue save(Venue venue) {
         return venueRepository.save(venue);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         venueRepository.deleteById(id);
     }

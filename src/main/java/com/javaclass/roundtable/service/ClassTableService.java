@@ -10,4 +10,5 @@ public interface ClassTableService {
     List<ClassTable> findAll();
     List<ClassTable> findAllOrderBySeqNo();
     List<ClassTable> findByInstructorId(Long instructorId);
+    void deleteTable(Long id);
 }
