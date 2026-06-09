@@ -2,6 +2,8 @@ package com.javaclass.roundtable.service;
 
 import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.repository.SysUserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +47,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUser> findAll() {
         return sysUserRepository.findAll();
+    }
+
+    @Override
+    public Page<SysUser> findAll(Pageable pageable) {
+        return sysUserRepository.findAll(pageable);
     }
 
     @Override

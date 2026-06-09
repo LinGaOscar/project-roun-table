@@ -3,6 +3,8 @@ package com.javaclass.roundtable.controller;
 import com.javaclass.roundtable.entity.Venue;
 import com.javaclass.roundtable.service.VenueService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -24,9 +25,12 @@ public class AdminVenueController {
     }
 
     @GetMapping
-    public String venueListPage(Model model) {
-        List<Venue> venues = venueService.findAll();
-        model.addAttribute("venueList", venues);
+    public String venueListPage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<Venue> venuePage = venueService.findAll(PageRequest.of(page, 10));
+        model.addAttribute("venueList", venuePage.getContent());
+        model.addAttribute("page", venuePage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", venuePage.getTotalPages());
         return "admin/venue_table";
     }
 

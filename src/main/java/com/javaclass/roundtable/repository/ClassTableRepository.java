@@ -2,6 +2,8 @@ package com.javaclass.roundtable.repository;
 
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.entity.SysUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 public interface ClassTableRepository extends JpaRepository<ClassTable,Long> {
     List<ClassTable> findAllByOrderBySeqNoAsc();
+    Page<ClassTable> findAllByOrderBySeqNoAsc(Pageable pageable);
     List<ClassTable> findByInstructor(SysUser instructor);
     List<ClassTable> findByInstructorId(Long instructorId);
 

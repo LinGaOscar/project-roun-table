@@ -6,6 +6,8 @@ import com.javaclass.roundtable.service.ClassTableService;
 import com.javaclass.roundtable.service.SysUserService;
 import com.javaclass.roundtable.service.VenueService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -33,9 +34,12 @@ public class AdminClassController {
     }
 
     @GetMapping
-    public String classListPage(Model model) {
-        List<ClassTable> classTables = classTableService.findAllOrderBySeqNo();
-        model.addAttribute("classList", classTables);
+    public String classListPage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<ClassTable> classPage = classTableService.findAllOrderBySeqNo(PageRequest.of(page, 10));
+        model.addAttribute("classList", classPage.getContent());
+        model.addAttribute("page", classPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", classPage.getTotalPages());
         return "admin/class_table";
     }
 

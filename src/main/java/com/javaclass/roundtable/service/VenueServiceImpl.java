@@ -2,6 +2,8 @@ package com.javaclass.roundtable.service;
 
 import com.javaclass.roundtable.entity.Venue;
 import com.javaclass.roundtable.repository.VenueRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -17,6 +19,11 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<Venue> findAll() {
         return venueRepository.findAll();
+    }
+
+    @Override
+    public Page<Venue> findAll(Pageable pageable) {
+        return venueRepository.findAll(pageable);
     }
 
     @Override

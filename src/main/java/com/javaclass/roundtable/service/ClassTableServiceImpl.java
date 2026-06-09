@@ -3,6 +3,10 @@ package com.javaclass.roundtable.service;
 import com.javaclass.roundtable.entity.ClassTable;
 import com.javaclass.roundtable.repository.ClassTableRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -44,6 +48,14 @@ public class ClassTableServiceImpl implements ClassTableService {
     public List<ClassTable> findAllOrderBySeqNo() {
         log.debug("Fetching all class tables ordered by SeqNo");
         return classTableRepository.findAllByOrderBySeqNoAsc();
+    }
+
+    @Override
+    public Page<ClassTable> findAllOrderBySeqNo(Pageable pageable) {
+        log.debug("Fetching class tables page {} ordered by SeqNo", pageable.getPageNumber());
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by(Sort.Direction.ASC, "seqNo"));
+        return classTableRepository.findAll(sortedPageable);
     }
 
     @Override

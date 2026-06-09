@@ -4,6 +4,8 @@ import com.javaclass.roundtable.entity.SysUser;
 import com.javaclass.roundtable.exception.BusinessException;
 import com.javaclass.roundtable.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,9 +26,12 @@ public class AdminUserController {
     }
 
     @GetMapping
-    public String userTablePage(Model model) {
-        List<SysUser> sysUsers = sysUserService.findAll();
-        model.addAttribute("userList", sysUsers);
+    public String userTablePage(@RequestParam(defaultValue = "0") int page, Model model) {
+        Page<SysUser> userPage = sysUserService.findAll(PageRequest.of(page, 10));
+        model.addAttribute("userList", userPage.getContent());
+        model.addAttribute("page", userPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userPage.getTotalPages());
         return "admin/user_table";
     }
 
