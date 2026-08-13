@@ -25,10 +25,17 @@
 *   **Tools**: Lombok, Maven, SLF4J
 
 ## 快速啟動
+### 0. 需求
+*   JDK 11
+*   Maven（或使用內附的 `./mvnw` / `mvnw.cmd`）
+*   MariaDB / MySQL
+
 ### 1. 資料庫準備
 請依序執行 `doc/` 目錄下的 SQL 腳本：
 1.  執行 `doc/DB_TABLE.sql` 建立資料表結構。
 2.  執行 `doc/DB_DATA.sql` 匯入初始資料。
+
+> `src/main/resources/application.properties` 內的資料庫連線帳密目前為明碼設定，僅供本機開發參考；正式環境請改用環境變數或未進版控的 local 設定檔覆蓋。
 
 ### 2. 初始帳號 (密碼均為 1234)
 | 帳號 | 角色 | 權限說明 |
@@ -62,9 +69,10 @@
 | `class_table` | **課程排程** | 標題、時間、關聯場地與講師、名額限制 |
 | `enrollment` | **報名紀錄** | 使用者與課程關聯、報名時間、狀態 |
 
-### 3. 編譯與執行
+### 3. 編譯、測試與執行
 ```bash
 mvn clean install
+mvn test
 mvn spring-boot:run
 ```
 
